@@ -9,6 +9,8 @@ Approach: Use BFS to explore each island. When we find unvisited
 land, start BFS to mark all connected land as visited.
 
 Date done: February 13, 2026
+
+assistance - solo
 """
 
 from collections import deque
