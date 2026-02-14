@@ -10,6 +10,8 @@ Approach: Similar to Number of Islands, but instead of just counting islands,
 we count the size of each island and track the maximum.
 
 Date Solved: February 13, 2026
+
+assictance = ai assictance to do the problem and then recreated from my understanding
 """
  from collections import deque
 class Solution:
