@@ -1,0 +1,43 @@
+"""
+LeetCode #733 - Flood Fill
+Difficulty: Easy
+Topic: BFS, Graph
+
+Problem: Perform a flood fill on an image. Starting from a pixel, change 
+its color and all connected pixels of the same color to a new color.
+
+Approach: BFS from the starting pixel. Change all connected pixels that 
+have the same original color to the new color.
+
+Date Solved: February 13, 2026
+
+assictance - no assictance
+"""
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        visited = set()
+        directions = [(1,0),(-1,0),(0,1),(0,-1)]
+        m = len(image)
+        n = len(image[0])
+        que = deque([(sr,sc)])
+        visited.add((sr,sc))
+
+        while que:
+            row,col = que.popleft()
+            for dr,dc in directions:
+                nr,nc = row + dr, col+dc
+                if 0<=nr<m and 0<=nc<n and (nr,nc) not in visited and image[nr][nc] == image[sr][sc]:
+                    visited.add((nr,nc))
+                    que.append((nr,nc))
+                    image[nr][nc] = color
+        
+        image[sr][sc] = color
+        
+        return image
+
+
+
+        
+
+
+        
