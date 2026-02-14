@@ -1,0 +1,59 @@
+"""
+LeetCode #994 - Rotting Oranges
+Difficulty: Medium
+Topic: BFS, Multi-source BFS
+
+Problem: In a grid, 0 = empty, 1 = fresh orange, 2 = rotten orange. 
+Every minute, rotten oranges rot adjacent fresh oranges. Return the 
+minimum minutes needed to rot all oranges, or -1 if impossible.
+
+Approach: Multi-source BFS. Start BFS from ALL rotten oranges simultaneously. 
+Track time at each level. If fresh oranges remain after BFS, return -1.
+
+Date Solved: February 14, 2026
+
+assictance - ai assictance for concept understanding
+"""
+
+from collections import deque
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+
+        fresh_count = 0
+        que = deque()
+        
+        time = 0
+        for row in range(m):
+            for col in range(n):
+                if grid[row][col] == 2:
+                    que.append((row,col,0))
+                elif grid[row][col] == 1:
+                    fresh_count +=1
+        
+        if fresh_count == 0:
+            return 0
+
+        directions = [(1,0),(-1,0),(0,1),(0,-1)]
+
+        while que:
+            row,col,time = que.popleft()
+            for dr,dc in directions:
+                nr,nc = row + dr, col + dc
+
+                if 0<=nr<m and 0<=nc<n and grid[nr][nc] == 1:
+                    grid[nr][nc] = 2
+                    que.append((nr,nc,time + 1))
+                    fresh_count -=1
+                
+        if fresh_count == 0: 
+            return time 
+        else:
+             return -1
+
+                
+                
+
+        
+        
