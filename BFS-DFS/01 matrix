@@ -1,0 +1,89 @@
+"""
+LeetCode #542 - 01 Matrix
+Difficulty: Medium
+Topic: BFS, Multi-source BFS, Matrix
+
+Problem: Given a binary matrix with 0s and 1s, find the distance from 
+each cell to the nearest 0. Distance is calculated using only horizontal 
+and vertical moves.
+
+Approach: Multi-source BFS. Start BFS from ALL 0s simultaneously. 
+Initialize result matrix with -1 (or infinity) to mark unvisited cells. 
+Spread outward from all 0s, updating distances as we go. First time we 
+reach a cell = shortest distance (guaranteed by BFS).
+
+Key Insight: Instead of running BFS from each 1 to find nearest 0 
+(which would be O(m²n²)), we run ONE BFS from all 0s at once (O(mn)).
+
+Date Solved: February 14, 2026
+
+assictance - ai to help me figure out more efficient way to do it after realizing it took too much time in a grid with many values
+
+original try: 
+from collections import deque
+class Solution:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+        m = len(mat)
+        n = len(mat[0])
+        
+        def find_distance(row,col):
+            m = len(mat)
+            n = len(mat[0])
+            directions = [(0,1),(0,-1),(1,0),(-1,0)]
+
+            times = []
+            que = deque([(row,col,0)])
+            visited = set([(row,col)])
+            time = 0
+  
+
+            while que:
+                row, col, time = que.popleft()
+                for dr,dc in directions:
+                    nr,nc = row + dr, col + dc
+                    if 0<=nr<m and 0<=nc<n and mat[nr][nc] != 0 and (nr,nc) not in visited:
+                        que.append((nr,nc,time + 1))
+                        visited.add((nr,nc))
+                        times.append(time + 1)
+                    elif 0<=nr<m and 0<=nc<n and mat[nr][nc] == 0 and (nr,nc) not in visited:
+                        time += 1
+                        return time
+            
+            
+        
+        for row in range(m):
+            for col in range(n):
+                if mat[row][col] == 1:
+                    mat[row][col] = find_distance(row,col)
+        
+        return mat       
+"""
+
+
+from collections import deque
+class Solution:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+        m = len(mat)
+        n = len(mat[0])
+        
+        result = [[-1] * n for val in range(m)]
+        que = deque()
+
+        for row in range(m):
+            for col in range(n):
+                if mat[row][col] == 0:
+                    result[row][col] = 0
+                    que.append((row,col))
+        
+        directions = [(1,0),(-1,0),(0,1), (0,-1)]
+
+        while que:
+            row,col = que.popleft()
+            for dr,dc in directions:
+                nr,nc = row+dr,col+dc
+                if 0<=nr<m and 0<=nc<n and result[nr][nc] == -1:
+                    result[nr][nc] = result[row][col] + 1
+                    que.append((nr,nc))
+        
+        return result
+        
