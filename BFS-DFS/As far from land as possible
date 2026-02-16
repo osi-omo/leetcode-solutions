@@ -1,0 +1,60 @@
+"""
+LeetCode #1162 - As Far from Land as Possible
+Difficulty: Medium
+Topic: Multi-source BFS, Distance calculation
+
+Problem: Given an n×n grid containing only 0s (water) and 1s (land), 
+find the water cell that is farthest from any land cell. Return the 
+maximum Manhattan distance.
+
+Approach: Multi-source BFS from ALL land cells (1s) simultaneously. 
+Spread outward, calculating distance to each water cell. The last 
+water cell reached has the maximum distance.
+
+Key Insight: This is the INVERSE of 01 Matrix! Instead of finding 
+distance from each cell to nearest 0, we find distance from each 
+water (0) to nearest land (1). Same algorithm, different starting points.
+
+Date Solved: February 16, 2026
+Time Taken: 16 minutes(fastest medium so far)
+
+assistance - none
+"""
+class Solution:
+    def maxDistance(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        distance  = 0
+        directions = [(1,0),(-1,0),(0,1),(0,-1)]
+        que = deque()
+        visited = set([()])
+        
+        has_land = False
+        has_water = False
+
+        for row in range(m):
+            for col in range(n):
+                if 1 in grid[row]:
+                    has_water = True 
+                if 0 in grid[row]:
+                    has_land = True 
+                if grid[row][col] == 1:
+                    que.append((row,col))
+
+        if not has_land or not has_water:
+            return -1 
+            
+        while que:
+            row,col = que.popleft()
+            for dr,dc in directions:
+                nr,nc = row + dr, col + dc
+                if 0<=nr<m and 0<=nc<n and grid[nr][nc] == 0:
+                    que.append((nr,nc))
+                    distance = grid[row][col]
+                    grid[nr][nc] = grid[row][col] + 1
+
+        return distance
+
+
+
+        
