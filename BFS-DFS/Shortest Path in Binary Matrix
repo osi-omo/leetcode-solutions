@@ -1,0 +1,72 @@
+"""
+LeetCode #1091 - Shortest Path in Binary Matrix
+Difficulty: Medium
+Topic: BFS, Shortest Path, 8-directional movement
+
+Problem: Given an n×n binary matrix, find the length of the shortest 
+clear path from top-left (0,0) to bottom-right (n-1,n-1). A clear path 
+consists of 0s and can move in 8 directions (including diagonals).
+
+Approach: Single-source BFS from (0,0). Unlike previous problems with 
+4-directional movement, this uses 8 directions (including diagonals). 
+Track path length in the queue. First time we reach the destination = 
+shortest path (BFS guarantee).
+
+Key Differences from Previous BFS Problems:
+- 8 directions instead of 4 (includes diagonals)
+- Path length tracking (count cells, not distance)
+- Start cell counts as 1
+- Must check if start/end are blocked
+
+assistance: ai to help figure out how to check if there was no pathway that connects start and enpoint which was just checking if the que finishes
+
+Date Solved: February 15, 2026
+"""
+
+
+from collections import deque
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+
+        path_length = 1
+        end_point = (m - 1,n -1)
+         
+        if grid[0][0] != 0:
+            return -1
+        elif grid[m-1][n-1] != 0:
+            return -1
+        
+        if m * n ==1:
+            if grid[0][0] != 0:
+                return -1
+            else:
+                return 1
+        
+        for row in range(m):
+            for col in range(n):
+                if grid[row][col] == 1:
+                   grid[row][col] = -1
+ 
+        que = deque([(0,0,path_length)])
+        visited = set([(0,0)])
+        directions = [(1,0),(-1,0),(0,1),(0,-1),(1,1),(1,-1),(-1,1),(-1,-1)]
+
+        while que:
+            row,col,path_length = que.popleft()
+            if (row,col) == end_point:
+                return path_length
+
+            for dr,dc in directions:
+                nr,nc = row + dr, col + dc
+                if 0<=nr<m and 0<=nc<n and grid[nr][nc] != -1 and (nr,nc) not in visited:
+                    que.append((nr,nc,path_length + 1))
+                    visited.add((nr,nc))
+        return -1
+                    
+
+
+
+
+        
