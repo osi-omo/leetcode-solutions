@@ -10,9 +10,14 @@
 5. 01 Matrix (Medium) - Multi-source BFS, distance to 0s
 6. Shortest Path in Binary Matrix (Medium) - 8-directional BFS
 7. As Far from Land as Possible (Medium) - Multi-source BFS, distance to 1s
+8. Surrounded Regions(medium)
+9. Minimum Genetic Mutation(medium)
+10. Word Ladder(hard)
 
 Day 4 Breakthrough: Solved As Far from Land as Possible in 16 minutes! 
 Pattern recognition is clicking
+
+Day 5 breakthrough: solved my first hard problem
 
    ## Patterns Learned:
 - Single-source BFS** - Start from one cell
