@@ -1,0 +1,64 @@
+"""
+LeetCode #130 - Surrounded Regions
+Difficulty: Medium
+Topic: BFS, Island Detection
+
+Problem: Capture all regions of 'O' that are completely surrounded 
+by 'X'. Regions touching the border are not captured.
+
+Approach: For each unvisited 'O', use BFS to find the entire connected 
+island. During BFS, check if any cell in the island touches the border. 
+If the island is completely surrounded (no border cells), flip all 
+cells to 'X'.
+
+Key Insight: Track both global visited set (across all islands) and 
+per-island cells. Check border condition during BFS traversal.
+
+assictance - none
+
+Date Solved: February 16, 2026
+Time Taken: 26 minutes (4 attempts to handle edge cases)
+"""
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        m = len(board)
+        n = len(board[0])
+
+        directions = [(0,1),(0,-1),(1,0),(-1,0)]
+        visited = set()
+        def find_island(row,col,m,n):
+            que = deque([(row,col)])
+            visited.add((row,col))
+            island_points = set([(row,col)])
+            surounded = True
+
+            while que:
+                row,col = que.popleft()
+                if row == m-1 or col == n-1 or row == 0 or col == 0 :
+                    surounded = False
+                for dr,dc in directions:
+                    nr,nc = row + dr, col + dc
+                    if 0<=nr<m and 0<=nc<n and (nr,nc) not in visited and board[nr][nc] == "O":
+                        que.append((nr,nc))
+                        island_points.add((nr,nc))
+                        visited.add((nr,nc))
+                    
+            if surounded:
+                for row,col in island_points:
+                    board[row][col] = "X"
+            
+        for row in range(m):
+            for col in range(n):
+                if board[row][col] == "O" and (row,col) not in visited:
+                    find_island(row,col,m,n)
+
+
+
+
+
+
+
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        
