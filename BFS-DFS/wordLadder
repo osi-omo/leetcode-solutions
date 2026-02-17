@@ -1,0 +1,48 @@
+"""
+LeetCode #127 - Word Ladder
+Difficulty: Hard
+Topic: BFS, String Transformation
+
+Problem: Given beginWord, endWord, and a wordList, find the shortest
+transformation sequence from beginWord to endWord where each step
+changes exactly one letter and each word must be in wordList.
+
+Approach: BFS where each word is a "node" and neighbors are words
+that differ by exactly one letter. Try all 26 possible letters for
+each position to find valid next words.
+
+Key Insight: Convert wordList to SET for O(1) lookups! Using a list
+causes O(n) lookups which leads to Time Limit Exceeded on large inputs.
+
+Date Solved: February 17, 2026
+
+assistance: Needed AI to help figure out to use a set for wordList so I
+wouldnt exceed time limit
+"""
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        m = len(beginWord)
+        paths = [beginWord]
+        que = deque([(beginWord, 0)])
+        visited = set([(beginWord)])
+        wordList = set(wordList)
+        if endWord not in wordList:
+            return 0
+        
+        found_all = False
+        possible_letters = 'abcdefghijklmnopqrstuvwxyz'
+            
+            
+        while que:
+            word, steps = que.popleft()
+            if word == endWord:
+                return steps + 1
+            for i in range(m):
+                for possible_letter in possible_letters:
+                    new_word = word[:i] + possible_letter + word[i + 1:]
+
+                    if new_word not in visited and new_word in wordList:
+                        visited.add(new_word)
+                        que.append((new_word,steps + 1))
+                        paths.append(new_word)            
+        return 0
