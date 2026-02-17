@@ -1,0 +1,49 @@
+"""
+LeetCode #433 - Minimum Genetic Mutation
+Difficulty: Medium
+Topic: BFS, String Transformation
+
+Problem: Find minimum mutations to transform startGene to endGene
+where each mutation changes one character and result must be in bank.
+
+Approach: BFS where each gene is a node and neighbors are valid
+mutations (1 character different, must be in bank). Same pattern
+as Word Ladder but with only 4 possible characters (A, C, G, T).
+
+Key Insight: String transformation BFS - neighbors are strings
+that differ by exactly 1 character. Same concept as grid BFS
+but "movement" is changing a letter instead of moving a cell.
+
+Date Solved: February 18, 2026
+
+assictance - did it basically fully with ai then did word ladder
+to see if I really understood how then came back the next day and 
+did it in 6 mins
+"""
+from collections import deque
+class Solution:
+    def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:
+        bank = set(bank)
+        que = deque([(startGene,0)])
+        visited = set([(startGene)])
+        genes = ['A','C','G','T']
+        if endGene not in bank:
+            return -1
+        while que:
+            currentGene,mutations = que.popleft()
+            if currentGene == endGene:
+                return mutations
+            for i in range(8):
+                for letter in genes:
+                    newGene = currentGene[:i] + letter + currentGene[i+1:]
+
+                    if newGene not in visited and newGene in bank:
+                        que.append((newGene,mutations + 1))
+                        visited.add(newGene)
+        return -1
+
+
+
+
+
+
