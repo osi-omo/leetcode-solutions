@@ -1,0 +1,61 @@
+"""
+LeetCode #1020 - Number of Enclaves
+Difficulty: Medium
+Topic: BFS, Grid Traversal, Island Problems
+
+Problem: Count land cells (1s) that cannot reach the border of the grid.
+An island is "enclosed" if none of its cells touch the grid boundary.
+
+Approach: For each unvisited land cell, use BFS to explore the entire
+connected island. Track if any cell in the island touches the border.
+If the island touches the border, count = 0. Otherwise, count all cells.
+
+Key Learnings:
+- Border check must use OR not AND: (row==0 OR row==m-1 OR col==0 OR col==n-1)
+- Must add starting cell to visited set before BFS
+- Check entire island before deciding if it's enclosed
+
+Date Solved: February 18, 2026
+Time: 25 mins
+assistance: help with debugged logic errors with border checking (and vs or) and
+       visited set initialization. Similar pattern to Surrounded Regions.
+"""
+from collections import deque
+class Solution:
+    def numEnclaves(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        visited = set([()])
+        enclosed_islands = 0
+
+        directions = [(0,1),(0,-1),(1,0),(-1,0)]
+        def find_amt(row,col):
+            que = deque([(row,col)])
+            visited.add((row,col))
+            touches_border = False
+            amt_islands = 0
+
+            while que:
+                row,col = que.popleft()
+                if row == 0 or row == m-1 or col == 0 or col == n-1:
+                    touches_border = True
+                amt_islands +=1
+                for dr,dc in directions:
+                    nr,nc = row + dr, col + dc
+                    if 0<=nr<m and 0<=nc<n and (nr,nc) not in visited and grid[nr][nc] ==1:
+                        que.append((nr,nc))
+                        visited.add((nr,nc))
+            if touches_border:
+                return 0
+            return amt_islands
+        
+        for row in range(m):
+            for col in range(n):
+                if (row,col) not in visited and grid[row][col] == 1:
+                    if row != 0 and row != m-1 and col != 0 and col != n-1:
+                        enclosed_islands += find_amt(row,col)
+
+        return enclosed_islands
+
+
+        
