@@ -1,7 +1,7 @@
 My competitive programming journey - preparing for Summer 2027 internship
 
 Current Progress
-Total Problems so far: 11
+Total Problems so far: 12
 - Easy: 1
 - Medium: 10
 - Hard: 1
