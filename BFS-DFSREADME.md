@@ -13,6 +13,8 @@
 8. Surrounded Regions(medium)
 9. Minimum Genetic Mutation(medium)
 10. Word Ladder(hard)
+11. open the lock(medium)
+12. number of enclaves(medium)
 
 Day 4 Breakthrough: Solved As Far from Land as Possible in 16 minutes! 
 Pattern recognition is clicking
