@@ -1,9 +1,9 @@
 My competitive programming journey - preparing for Summer 2027 internship
 
 Current Progress
-Total Problems so far: 6
+Total Problems so far: 11
 - Easy: 1
-- Medium: 8(one with heavy ai assistance)
+- Medium: 9
 - Hard: 1
 
  Current Focus
@@ -39,4 +39,4 @@ like grid see if it matches without already being checked
 
 ---
 *Last Updated: February 16, 2026*
-*Current Streak: 4 days 
+*Current Streak: 6 days 
