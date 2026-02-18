@@ -1,0 +1,51 @@
+"""
+LeetCode #752 - Open the Lock
+Difficulty: Medium
+Topic: BFS, State Transformation
+
+Problem: Find minimum turns to unlock a 4-wheel combination lock
+where each wheel has digits 0-9. Can't visit deadend combinations.
+
+Approach: BFS where each combination is a state. Neighbors are
+combinations reachable by turning one wheel up or down by 1.
+Use modulo for circular wrapping (9→0, 0→9).
+
+Key Learnings:
+- Modulo operator (%) for circular wrapping: (digit + turn) % 10
+- Check target when adding to queue (not when popping) for efficiency
+- Converting current digit from string: int(code[i])
+
+Date Solved: February 18, 2026
+Time: ~35 minutes
+assictance: Used AI assistance to understand modulo wrapping logic
+       and figure out where to plase my code check . 
+"""
+from collections import deque
+class Solution:
+    def openLock(self, deadends: List[str], target: str) -> int:
+        deadends = set(deadends)
+        code = "0000"
+        if code in deadends:
+            return -1
+        if code == target:
+            return 0
+        que = deque([(code,1)])
+        visited = set([(code)])
+
+        turn_directions = [-1,1]
+
+        while que:
+            code,turns = que.popleft()
+            for i in range(4):
+                digit = int(code[i])
+                for turn in turn_directions:
+                    new_digit = (digit + turn) % 10
+                    new_code = code[:i] + str(new_digit) + code[i+1:]
+                    if new_code == target:
+                        return turns
+                    if new_code not in visited and new_code not in deadends:
+                        que.append((new_code,turns + 1))
+                        visited.add(new_code)
+        return -1
+
+        
