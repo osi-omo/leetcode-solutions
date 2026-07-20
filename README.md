@@ -1,4 +1,4 @@
-My competitive programming journey - preparing for Summer 2027 internship
+My programming journey - 
 
 Current Progress
 Total Problems so far: 12
